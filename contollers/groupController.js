@@ -34,6 +34,7 @@ exports.checkGroup = async (req, res, next) => {
 
   if (!token) {
     res.status(200).send(false)
+
     return
   } else {
     try {
