@@ -44,13 +44,13 @@ router.route("/user/verify").get(verifyUser) // (token) => (true/false)
 router.route("/user/getusername").get(getUsername) // (token) => (username)
 router.route("/user/update_password").put(isAutheticatedUser, updatePassword) // (token) => (true/false)
 router.route("/user/update_email").put(isAutheticatedUser, updateEmail) // (token) => (true/false)
-router.route("/group/user").get(getUserGroups) // (token) => (object of groups)
-router.route("/group/checkgroup").post(checkGroup) // (token, group_name) => (true/false)
+router.route("/group/user").get(isAutheticatedUser, getUserGroups) // (token) => (object of groups)
+router.route("/group/checkgroup").post(isAutheticatedUser, checkGroup) // (token, group_name) => (true/false)
 
 // admin update user // NEED TO AUTH TOKEN IS ADMIN
 // get details of all users
-router.route("/users").get(getUsers) // () => (user details)
-router.route("/groups").get(getGroups) // () => (group details)
+router.route("/users").get(isAutheticatedUser, authorizedAdmin, getUsers) // () => (user details)
+router.route("/groups").get(isAutheticatedUser, authorizedAdmin, getGroups) // () => (group details)
 
 // to perform user updates as admin
 router.route("/user/update_password_admin").put(isAutheticatedUser, authorizedAdmin, updatePasswordAdmin) // (username, password) => (true/false)

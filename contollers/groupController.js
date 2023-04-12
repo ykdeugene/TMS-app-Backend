@@ -25,6 +25,8 @@ async function checkGroup(username, group_name) {
   })
 }
 
+// receives token and group_name => check if user is in group_name => returns true/false
+// exports.checkGroup = (req, res, next) => {
 exports.checkGroup = async (req, res, next) => {
   let token
 
@@ -51,48 +53,6 @@ exports.checkGroup = async (req, res, next) => {
     }
   }
 }
-
-// receives token and group_name => check if user is in group_name => returns true/false
-// exports.checkGroup = (req, res, next) => {
-//   let token
-
-//   if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
-//     token = req.headers.authorization.split(" ")[1]
-//   }
-
-//   if (!token) {
-//     res.status(200).send(false)
-//     return
-//   } else {
-//     try {
-//       const decoded = jwt.verify(token, process.env.JWT_Secret)
-//       connectDatabase.getConnection(function (err, connection) {
-//         if (err) {
-//           res.status(200).send(false)
-//           return
-//         }
-//         const query = "SELECT * FROM user_groups WHERE username = ? AND group_name = ?"
-//         data = [decoded.username, req.body.group_name]
-//         connection.query(query, data, (err, results) => {
-//           if (err) {
-//             res.status(200).send(false)
-//             return
-//           }
-
-//           if (results.length === 1) {
-//             res.status(200).send(true)
-//           } else {
-//             res.status(200).send(false)
-//           }
-//         })
-//         connection.release()
-//       })
-//     } catch (e) {
-//       console.log(e)
-//       res.status(200).send(false)
-//     }
-//   }
-// }
 
 // Get the groups that user is in => /group/user
 // receives token => retrieve all groups that user is in => returns object of groups

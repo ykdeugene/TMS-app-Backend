@@ -255,9 +255,12 @@ exports.updatePasswordAdmin = (req, res, next) => {
         return
       }
 
-      if (results) {
+      if (results.changedRows === 1) {
         res.status(200).send(true)
+      } else if (results.changedRows === 0) {
+        res.status(200).send("A100")
       } else {
+        console.log(results.changedRows)
         res.status(200).send(false)
       }
     })
