@@ -199,3 +199,25 @@ exports.createGroupAdmin = (req, res, next) => {
     connection.release()
   })
 }
+
+// Get all Group => /all_groups
+// returns all group_names only
+exports.getAllGroups = (req, res, next) => {
+  connectDatabase.getConnection(function (err, connection) {
+    if (err) {
+      res.status(200).send(false)
+      return
+    }
+    const query = "SELECT group_name FROM user_groups WHERE username = ''"
+    connection.query(query, (err, results) => {
+      if (err) {
+        res.status(500).send(err)
+        return
+      }
+
+      // Return the results in json
+      res.status(200).send(results)
+    })
+    connection.release()
+  })
+}

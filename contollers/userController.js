@@ -323,6 +323,7 @@ exports.updateActiveStatusAdmin = (req, res, next) => {
 }
 
 // Create a new User => /user/create_user_admin
+// receives username/email/password/active_status => insert into users => returns true/false
 exports.createUserAdmin = (req, res, next) => {
   connectDatabase.getConnection(async function (err, connection) {
     if (err) {

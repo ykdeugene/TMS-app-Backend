@@ -24,7 +24,8 @@ const {
   getGroups,
   addUserToGroupAdmin,
   rmvUserFrGroupAdmin,
-  createGroupAdmin
+  createGroupAdmin,
+  getAllGroups
 } = require("../contollers/groupController")
 
 // Importing interceptors
@@ -33,6 +34,13 @@ const {
   isAutheticatedUser,
   authorizedAdmin
  } = require("../middlewares/auth")
+
+// Importing TMS controller methods
+// prettier-ignore
+const {
+  createApplication,
+  getApplication,
+ } = require('../contollers/TMSController')
 
 // GET, POST, PUT, DELETE methods are defined here
 
@@ -50,7 +58,8 @@ router.route("/group/checkgroup").post(isAutheticatedUser, checkGroup) // (token
 // admin update user // NEED TO AUTH TOKEN IS ADMIN
 // get details of all users
 router.route("/users").get(isAutheticatedUser, authorizedAdmin, getUsers) // () => (user details)
-router.route("/groups").get(isAutheticatedUser, authorizedAdmin, getGroups) // () => (group details)
+router.route("/groups").get(isAutheticatedUser, authorizedAdmin, getGroups) // () => (All group details)
+router.route("/all_groups").get(isAutheticatedUser, authorizedAdmin, getAllGroups) // () => (group_name details where username === "")
 
 // to perform user updates as admin
 router.route("/user/update_password_admin").put(isAutheticatedUser, authorizedAdmin, updatePasswordAdmin) // (username, password) => (true/false)
@@ -60,5 +69,9 @@ router.route("/group/add_user_to_group_admin").post(isAutheticatedUser, authoriz
 router.route("/group/rmv_user_fr_group_admin").post(isAutheticatedUser, authorizedAdmin, rmvUserFrGroupAdmin) // (username, group_name) => (true/false)
 router.route("/group/create_group_admin").post(isAutheticatedUser, authorizedAdmin, createGroupAdmin) // (group_name) => (true/false)
 router.route("/user/create_user_admin").post(isAutheticatedUser, authorizedAdmin, createUserAdmin) // (username, password, email) => (true/false)
+
+// to perform TMS functions
+router.route("/tms/create_application").post(createApplication) // (application details x9) => (true/false)
+router.route("/tms/applications").get(getApplication) // () => (application details)
 
 module.exports = router
