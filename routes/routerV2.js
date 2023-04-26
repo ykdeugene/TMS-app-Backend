@@ -40,7 +40,17 @@ const {
 const {
   createApplication,
   getApplication,
+  updateApplication,
+  createPlan,
+  getPlan,
+  updatePlan,
+  createTask,
+  getTask,
+  updateTaskStatus,
  } = require('../contollers/TMSController')
+
+// Importing sending email methods
+const { sendEmail } = require("../contollers/nodemailer")
 
 // GET, POST, PUT, DELETE methods are defined here
 
@@ -57,9 +67,9 @@ router.route("/group/checkgroup").post(isAutheticatedUser, checkGroup) // (token
 
 // admin update user // NEED TO AUTH TOKEN IS ADMIN
 // get details of all users
-router.route("/users").get(isAutheticatedUser, authorizedAdmin, getUsers) // () => (user details)
+router.route("/users").get(isAutheticatedUser, getUsers) // () => (user details)
 router.route("/groups").get(isAutheticatedUser, authorizedAdmin, getGroups) // () => (All group details)
-router.route("/all_groups").get(isAutheticatedUser, authorizedAdmin, getAllGroups) // () => (group_name details where username === "")
+router.route("/all_groups").get(isAutheticatedUser, getAllGroups) // () => (group_name details where username === "")
 
 // to perform user updates as admin
 router.route("/user/update_password_admin").put(isAutheticatedUser, authorizedAdmin, updatePasswordAdmin) // (username, password) => (true/false)
@@ -73,5 +83,15 @@ router.route("/user/create_user_admin").post(isAutheticatedUser, authorizedAdmin
 // to perform TMS functions
 router.route("/tms/create_application").post(createApplication) // (application details x9) => (true/false)
 router.route("/tms/applications").get(getApplication) // () => (application details)
+router.route("/tms/update_application").put(updateApplication) // (appName & updated_fields) => (true/false)
+router.route("/tms/create_plan").post(createPlan) // (application details x4) => (true/false)
+router.route("/tms/plans").post(getPlan) // (appName) => (plan details)
+router.route("/tms/update_plan").put(updatePlan) // (appName & planName/planStartDate/planEndDate/planColour) => (true/false)
+router.route("/tms/create_task").post(createTask) // (task details x8) => (true/false)
+router.route("/tms/tasks").post(getTask) // (appName) => (task details)
+router.route("/tms/update_task_status").put(updateTaskStatus) // (taskID/taskNewStatus) => (true/false)
+
+// to perform Email functions
+router.route("/tms/send_email").post(sendEmail) // (objects) => (send email) => (true/false)
 
 module.exports = router
